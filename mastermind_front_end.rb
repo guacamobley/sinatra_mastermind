@@ -2,6 +2,7 @@ require 'sinatra'
 require './mastermind.rb'
 
 game = nil
+board= nil
 get '/' do
 
   msg=""
@@ -10,58 +11,40 @@ get '/' do
 end
 
 get '/game' do
+  over = false
 
+  #only do this when the page is first loaded
   unless params[:human].nil?
     game = params[:human] == "Code breaker" ?
       Game.new(12,HumanPlayer.new,ComputerPlayer.new) : Game.new(12,ComputerPlayer.new,HumanPlayer.new)
+    board=game.board
   end
 
-  board = game.board
   msg=""
 
   if params[:guess].nil?
     #this is the first time the screen has been shown. 
-  end
-
-=begin
-  #process previous guess, if there is one.
-  #
-  #check to see if the game has been won.
-  #
-  #display the board
-  #
-  #ask for a new guess (inside the form)
-
-  if board.won? || board.out_of_guesses?
-
   else
+    #a choice has been made
+    current_guess = []
+    4.times{|index| current_guess << COLORS.index(COLOR_CODES.key(params["button#{index}".to_sym]))}
 
-  msg = ""
-
-  erb :game, :locals => {board: board,msg: message}
-
-
-    board.display
-
-    puts "#{codeBreaker}, you have #{board.guesses_left} guesses left."
-
-    #this is where the input needs to be
-    current_guess = codeBreaker.guess(board)
-
-    respond_to_guess(current_guess)
-
+    game.respond_to_guess(current_guess.join)
     board.guessesUsed = board.guesses_used + 1
   end
 
-  board.display
   if board.won?
-    puts "Congratulations, #{codeBreaker}, you guessed the code in #{board.guesses_used} guesses!"
-    puts "The secret code was #{board.answerRow}"
+    msg = "Congratulations, #{game.codeBreaker}, you guessed the code in #{board.guesses_used} guesses!"
+    over=true
+  elsif board.out_of_guesses?
+    msg = "Congratulations, #{game.codeMaker}, you stumped the #{game.codeBreaker}!"
+    over=true
   else
-    puts "Congratulations, #{codeMaker}, you stumped the #{codeBreaker}!"
+    msg="#{game.codeBreaker}, you have #{board.guesses_left} guesses left."
   end
-=end
-  erb :game, :locals => {board: board,message: msg}
+
+  #display the board
+  erb :game, :locals => {board: board, message: msg, over:over}
 
 end
 

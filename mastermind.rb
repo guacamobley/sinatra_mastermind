@@ -11,7 +11,7 @@ COLORS = [
   :GR,
   :BU]
 
-COLOR_CODES = {EM: "empty", BK: "Black", WH: "White", RD: "Red", YW: "Yellow", GR: "Green", BU: "Blue"}
+COLOR_CODES = {EM: "Empty", BK: "Black", WH: "White", RD: "Red", YW: "Yellow", GR: "Green", BU: "Blue"}
 
 
 class Row
@@ -344,10 +344,12 @@ class Game
   end
 
   def respond_to_guess guess
+    #change guess to "1234" format
     board.add_code_row(guess)
     keyCode = board.check_code
     board.add_key_row(keyCode)
   end
+
 
   private
 
