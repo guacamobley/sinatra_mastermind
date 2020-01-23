@@ -1,5 +1,9 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>Mastermind</title>
 </head>
 <body>
   <%unless board.nil?%>
@@ -14,14 +18,14 @@
     </tr>
     <%board.codeRows.each.with_index {|row,index| %>
       <tr>
-      <%row.pegs.each{|peg| %>
-      <td class="<%=COLOR_CODES[peg]%>";>
-        <%=COLOR_CODES[peg]%>
+      <%row.pegs.each.with_index{|peg,index2| %>
+      <td class="<%=COLOR_CODES[peg]%> <%if index2==3 then %><%="last"%><%end%>">
+        <%="\u2588"%>
       </td>
       <%}%>
       <%board.keyRows[index].pegs.each{|peg| %>
-      <td class="<%=COLOR_CODES[peg]%>";>
-        <%=COLOR_CODES[peg]%>
+      <td class="<%=COLOR_CODES[peg]%> <%=index < board.guesses_used ? "responded" : "not-responded" %> response">
+        <%="\u2580"%>
       </td>
       <% } %>
     </tr>
@@ -39,10 +43,10 @@
         <%["Black","White","Red","Yellow","Green","Blue"].each{|color|%>
         <tr>
           <%4.times{|index|%>
-          <th>
-            <input type="radio" id=<%="#{color}#{index}"%> name=<%="button#{index}"%> value=<%="#{color}"%> <%if color=="Black" then %><%="checked"%><%end%>/>
-            <label for=<%="#{color}#{index}"%> class="<%=color%>"><%=color%></label>
-          </th>
+          <td>
+            <input type="radio" class="<%=color%>" id=<%="#{color}#{index}"%> name=<%="button#{index}"%> data-radioclass=<%=index%> value=<%="#{color}"%> <%if color=="Black" then %><%="checked"%><%end%>/>
+            <label for=<%="#{color}#{index}"%> id=<%="label#{color}#{index}"%> class="<%=color%>" data-id=<%="#{color}#{index}"%> data-radioclass=<%=index%>><%="\u2588"%></label>
+          </td>
         <% } %>
         </tr>
       <% } %>
@@ -54,4 +58,5 @@
     </p>
   <%end%>
 </body>
+<script src="source/script.js"></script>
 </html>
