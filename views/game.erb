@@ -1,0 +1,51 @@
+<html>
+<head>
+</head>
+<body>
+  <%unless board.nil?%>
+  <table>
+    <tr>
+      <th colspan="4">
+        Guesses
+      </th>
+      <th colspan="4">
+        Responses
+      </th>
+    </tr>
+    <%board.codeRows.each.with_index {|row,index| %>
+      <tr>
+      <%row.pegs.each{|peg| %>
+      <td>
+        <%=peg.to_s%>
+      </td>
+      <%}%>
+      <%board.keyRows[index].pegs.each{|peg| %>
+      <td>
+        <%=peg.to_s%>
+      </td>
+      <% } %>
+    </tr>
+    <% } %>
+  </table>
+  <% end %>
+
+  <p>
+    <%=message %>
+  </p>
+  <form>
+    <table>
+      <%["Black","White","Red","Yellow","Green","Blue"].each{|color|%>
+      <tr>
+        <%4.times{|index|%>
+        <th>
+          <input type="radio" id=<%="#{color}#{index}"%> name=<%="button#{index}"%> <%if color=="Black" then %><%="checked"%><%end%>/>
+          <label for=<%="#{color}#{index}"%>><%=color%></label>
+        </th>
+      <% } %>
+      </tr>
+    <% } %>
+    </table>
+    <input type="submit" value="Submit" name="guess" onclick="check_buttons" id="submitbutton" />
+  </form>
+</body>
+</html>
