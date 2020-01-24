@@ -3,27 +3,15 @@ require './mastermind.rb'
 
 game = nil
 board= nil
+
 get '/' do
-
-  msg=""
-  erb :index, :locals => {message: msg}
-
-end
-
-get '/game' do
   over = false
 
   #only do this when the page is first loaded
-  unless params[:human].nil?
-    game = params[:human] == "Code breaker" ?
-      Game.new(12,HumanPlayer.new,ComputerPlayer.new) : Game.new(12,ComputerPlayer.new,HumanPlayer.new)
-    board=game.board
-  end
-
-  msg=""
-
   if params[:guess].nil?
-    #this is the first time the screen has been shown. 
+    game = Game.new(12,HumanPlayer.new,ComputerPlayer.new)
+    board=game.board
+
   else
     #a choice has been made
     current_guess = []
@@ -44,8 +32,6 @@ get '/game' do
   end
 
   #display the board
-  erb :game, :locals => {board: board, message: msg, over:over}
+  erb :index, :locals => {board: board, message: msg, over:over}
 
 end
-
-

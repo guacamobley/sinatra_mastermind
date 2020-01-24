@@ -1,20 +1,47 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <link href="css/styles.css" rel="stylesheet">
+  <meta charset="utf-8">
   <title>Mastermind</title>
 </head>
 <body>
-<form action="/game">
-  <label for="computer">Would you like to play as the codebreaker or code-maker?</label>
-  <br />
-  <input type="radio" id="Code breaker" name="human" value="Code breaker" checked />
-  <label for="Code breaker">Code breaker</label>
-  <br />
-  <input type="radio" id="Code maker" name="human" value="Code maker" />
-  <label for="Code maker">Code maker</label>
-  <br />
-  <input type="submit" value="Submit" />
-<end>
-
-<form>
+  <%unless board.nil?%>
+  <table>
+    <tr>
+      <th colspan="4">
+        Guesses
+      </th>
+      <th colspan="4">
+        Responses
+      </th>
+    </tr>
+    <%board.codeRows.each.with_index {|row,index| %>
+      <tr>
+      <%row.pegs.each.with_index{|peg,index2| %>
+      <td class="<%=COLOR_CODES[peg]%> <%if index2==3 then %><%="last"%><%end%>">
+        <%="\u2588"%>
+      </td>
+      <%}%>
+      <%board.keyRows[index].pegs.each{|peg| %>
+      <td class="<%=COLOR_CODES[peg]%> <%=index < board.guesses_used ? "responded" : "not-responded" %> response">
+        <%="\u2580"%>
+      </td>
+      <% } %>
+    </tr>
+    <% } %>
+  </table>
+  <% end %>
+  <%if over%>
+  <p>
+    <%=message%>
+  </p>
+  <%else%>
+    <%=erb :select_form%>
+    <p>
+      <%=message%>
+    </p>
+  <%end%>
 </body>
+<script src="source/script.js"></script>
 </html>

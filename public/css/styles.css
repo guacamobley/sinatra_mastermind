@@ -2,8 +2,8 @@
 *{
   -webkit-appearance: none;
   box-sizing: border-box;
-  background: #ADAD85;
-  color: white;
+  background: #9ac7c6;
+  color: black;
 }
 
 .White{
@@ -31,14 +31,14 @@
 }
 
 .Empty{
-  color: #ADAD85;
+  color: #9ac7c6;
 }
 
 .responded{
 }
 
 .not-responded{
-  color: #ADAD85;
+  color: #9ac7c6;
 }
 
 .last{

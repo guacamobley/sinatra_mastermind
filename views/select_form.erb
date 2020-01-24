@@ -1,0 +1,15 @@
+    <form>
+      <table>
+        <%["Black","White","Red","Yellow","Green","Blue"].each{|color|%>
+        <tr>
+          <%4.times{|index|%>
+          <td>
+            <input type="radio" class="<%=color%>" id=<%="#{color}#{index}"%> name=<%="button#{index}"%> data-radioclass=<%=index%> value=<%="#{color}"%> <%if color=="Black" then %><%="checked"%><%end%>/>
+            <label for=<%="#{color}#{index}"%> id=<%="label#{color}#{index}"%> class="<%=color%>" data-id=<%="#{color}#{index}"%> data-radioclass=<%=index%>><%="\u2588"%></label>
+          </td>
+        <% } %>
+        </tr>
+      <% } %>
+      </table>
+      <input type="submit" value="Submit" name="guess" onclick="check_buttons" id="submitbutton" />
+    </form>
